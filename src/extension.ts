@@ -30,7 +30,11 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 				}
 			} catch (error) {
-				vscode.window.showErrorMessage('Error finding latest migration: ' + error.message);
+				if (error instanceof Error) {
+					throw new Error(`Error finding migrations path: ${error.message}`);
+				} else {
+					throw new Error('An unknown error occurred while finding migrations path');
+				}
 			}
 		}
 	);
